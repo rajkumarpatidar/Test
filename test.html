@@ -1,0 +1,74 @@
+  <!DOCTYPE html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <title>hello-backbonejs</title>
+  </head>
+
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="http://ajax.cdnjs.com/ajax/libs/json2/20110223/json2.js"></script>
+    <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.4.3/underscore-min.js"></script>
+    <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.9.10/backbone-min.js"></script>
+    <script src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
+   
+    <script type="text/template" id="form-tpl">
+
+            <table>
+            <tr><td><label for="userId">User Id: </label></td>
+            <td><input id="userId" '></td></tr>
+            <tr><td><label for="password">Password: </label></td>
+            <td><input id="password" ></td></tr>
+            <tr><td><button id="login">Login</button></td><td><button id="twitter">Twitter</button></td></tr>
+            </table>
+    
+    </script>
+    
+   <div id="form"></div>
+
+   <script type="text/javascript">
+      
+	   var App = {};
+	   App.Person = Backbone.Model.extend({
+	   url: 'http://search.twitter.com/search.json?q=from%3amarcofolio'
+				  // url:'json-bpo/d_userAction'
+	   });
+	   
+	   
+	   App.View = Backbone.View.extend({
+	   el: "#form",
+           events: {
+            'click button#twitter': 'twitter',
+            'click button#login': 'login'
+           },
+           login: function(){
+        	   this.model.fetch({ 
+        	       success: this.render 
+        	     });
+           },
+           twitter: function(){
+          
+           },
+	   render: function() {
+	   var html = _.template($('#form-tpl').html(), this.model.toJSON());
+	   this.$el.html(html);
+	   }
+	   });
+
+
+	   $(function() {
+	    var person = new App.Person({
+	    name: 'Rajkumar',
+	    age: 24
+	    }),
+	    app = new App.View({
+	    model: person
+	    
+	    });
+	    app.render(person);
+	    });
+
+   </script>
+
+  </body>
+  </html>
